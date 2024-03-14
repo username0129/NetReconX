@@ -3,8 +3,11 @@ package config
 // ServerConfig
 // @Description: 后端配置
 type ServerConfig struct {
-	Ip         string    `mapstructure:"ip"`          // 后端 IP 地址
-	Port       string    `mapstructure:"port"`        // 后端端口
-	ConfigPath string    `mapstructure:"config_path"` // 配置文件路径
-	Jwt        JwtConfig `mapstructure:"jwt"`         // jwt 配置
+	// 系统配置
+	JwtConfig    JwtConfig    `mapstructure:"jwt"`    // jwt 配置
+	SystemConfig SystemConfig `mapstructure:"system"` // 系统配置
+
+	// 数据库配置
+	MysqlConfig    MysqlConfig    `mapstructure:"mysql"`    // mysql 配置
+	PostgresConfig PostgresConfig `mapstructure:"postgres"` // postgres 配置
 }

@@ -12,10 +12,10 @@ import (
 //	@param path
 //	@return *viper.Viper
 func Viper() *viper.Viper {
-	fmt.Printf("当前使用的配置文件为：%v\n", GlobalConfig.ConfigPath)
+	fmt.Printf("当前使用的配置文件为：%v\n", GlobalConfig.SystemConfig.ConfigPath)
 
 	v := viper.New()
-	v.SetConfigFile(GlobalConfig.ConfigPath) // 配置文件路径
+	v.SetConfigFile(GlobalConfig.SystemConfig.ConfigPath) // 配置文件路径
 
 	if err := v.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("读取配置文件错误: %v\n", err))

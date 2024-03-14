@@ -5,3 +5,28 @@ jwt:
   buffer_time: 1d
   issuer: server
 
+# 系统配置
+system:
+  db_type: mysql
+
+# 数据库配置
+# 不推荐手动更改，建议在前端页面进行初始化
+mysql:
+  host: ""
+  port: ""
+  db_name: ""
+  username: ""
+  password: ""
+  max_idle_conns: 10
+  max_open_conns: 100
+  conn_max_lifetime: 10000
+
+postgres:
+  host: ""
+  port: ""
+  db_name: ""
+  username: ""
+  password: ""
+  max_idle_conns: 10
+  max_open_conns: 100
+  conn_max_lifetime: 10000
