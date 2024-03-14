@@ -1,0 +1,7 @@
+# jwt 认证配置
+jwt:
+  signing_key: f11a18af934b4b758de6f7e9e7c239ac
+  expiration_time: 7d
+  buffer_time: 1d
+  issuer: server
+

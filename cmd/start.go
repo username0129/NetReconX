@@ -2,9 +2,12 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"server/internal/config"
 )
 
 var (
+	configPath string // 配置文件路径
+
 	startCmd = &cobra.Command{
 		Use:   "start",
 		Short: "Start the Gin web server",
@@ -15,9 +18,12 @@ var (
 )
 
 func init() {
-	startCmd.Flags()
+	startCmd.Flags().StringVarP(&config.GlobalConfig.ConfigPath, "config", "c", "./config/config.yaml", "配置文件路径")
+	startCmd.Flags().StringVarP(&config.GlobalConfig.Ip, "ip", "i", "0.0.0.0", "后端 IP 地址")
+	startCmd.Flags().StringVarP(&config.GlobalConfig.Port, "port", "p", "8080", "后端监听地址")
 }
 
 func start() {
+	config.GlobalViper = config.Viper() // 初始化 Viper 用于管理配置文件
 
 }

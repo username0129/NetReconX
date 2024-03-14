@@ -1,6 +1,10 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"github.com/spf13/cobra"
+	"server/internal/config"
+)
 
 var (
 	versionCmd = &cobra.Command{
@@ -13,5 +17,5 @@ var (
 )
 
 func version() {
-
+	fmt.Printf("ServerConfig version %s -- HEAD\n", config.GlobalVersion)
 }
