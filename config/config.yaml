@@ -8,6 +8,7 @@ jwt:
 # 系统配置
 system:
   db_type: mysql
+  router_prefix: /api/v1
 
 # 数据库配置
 # 不推荐手动更改，建议在前端页面进行初始化
