@@ -12,6 +12,9 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			tip()
 		},
+		CompletionOptions: cobra.CompletionOptions{
+			DisableDefaultCmd: true,
+		},
 	}
 )
 

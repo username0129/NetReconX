@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -12,4 +13,5 @@ var (
 	GlobalConfig  ServerConfig // 后端配置
 	GlobalViper   *viper.Viper // 全局 viper
 	GlobalDB      *gorm.DB     // 全局 viper
+	GlobalLogger  *zap.Logger  // zap 日志
 )

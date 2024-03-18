@@ -13,7 +13,7 @@ func InitializeRout() *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Recovery()) // 避免 panic 导致服务器停止
 
-	RegisterRoutes(router, GetControllerList())
+	RegisterRoutes(router, &controllers.BaseController{})
 
 	return router
 }

@@ -5,6 +5,16 @@ jwt:
   buffer_time: 1d
   issuer: server
 
+# zap 日志配置
+zap:
+  level: info
+  format: console
+  prefix: "[server]"
+  director: log
+  encode_level: LowercaseColorLevelEncoder
+  stacktrace_key: stacktrace
+  log_in_console: true
+
 # 系统配置
 system:
   db_type: mysql

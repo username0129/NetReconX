@@ -19,6 +19,7 @@ func StartServer() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	err := server.ListenAndServe()
+
 	if err != nil {
 		return
 	}
