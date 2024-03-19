@@ -17,6 +17,7 @@ func Viper() *viper.Viper {
 
 	v := viper.New()
 	v.SetConfigFile(config.GlobalConfig.SystemConfig.ConfigPath) // 配置文件路径
+	v.SetConfigType("yaml")                                      // 配置文件类型
 
 	if err := v.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("读取配置文件错误: %v\n", err))

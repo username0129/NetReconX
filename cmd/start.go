@@ -27,9 +27,8 @@ func init() {
 
 func start() {
 	config.GlobalViper = core.Viper()                  // 初始化 Viper 用于管理配置文件
-	config.GlobalDB = database.GetDatabaseConnection() // 获取数据库连接
 	config.GlobalLogger = core.GetZapLogger()          // 设置 Logger
-
+	config.GlobalDB = database.GetDatabaseConnection() // 获取数据库连接
 	if config.GlobalDB != nil {
 		db, _ := config.GlobalDB.DB()
 		defer db.Close()

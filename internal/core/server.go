@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"go.uber.org/zap"
 	"net/http"
 	"server/internal/config"
 	"time"
@@ -18,9 +19,7 @@ func StartServer() {
 		WriteTimeout:   20 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	err := server.ListenAndServe()
 
-	if err != nil {
-		return
-	}
+	config.GlobalLogger.Info("服务端监听在 ", zap.String("地址", address))
+	config.GlobalLogger.Error(server.ListenAndServe().Error())
 }

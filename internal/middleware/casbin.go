@@ -2,12 +2,12 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"server/app/casbin/services"
+	"server/app/casbin/service"
 	"server/internal/config"
 	"strings"
 )
 
-var casbinService = services.CasbinServiceApp
+var casbinService = service.CasbinServiceApp
 
 func CasbinHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {

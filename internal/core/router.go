@@ -3,7 +3,11 @@ package core
 import (
 	"github.com/gin-gonic/gin"
 	"reflect"
-	"server/app/base/controllers"
+	authController "server/app/auth/controller"
+	baseController "server/app/base/controller"
+	casbinController "server/app/casbin/controller"
+	initController "server/app/init/controller"
+	userController "server/app/user/controller"
 	"server/internal/config"
 	"server/internal/middleware"
 	"strings"
@@ -13,18 +17,22 @@ func InitializeRout() *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Recovery()) // 避免 panic 导致服务器停止
 
-	RegisterRoutes(router, &controllers.BaseController{})
+	RegisterRoutes(router, GetControllerList())
 
 	return router
 }
 
 func GetControllerList() []interface{} {
 	return []interface{}{
-		&controllers.BaseController{},
+		&baseController.BaseController{},
+		&userController.UserController{},
+		&authController.AuthController{},
+		&casbinController.CasbinController{},
+		&initController.InitController{},
 	}
 }
 
-func RegisterRoutes(router *gin.Engine, controllers ...interface{}) {
+func RegisterRoutes(router *gin.Engine, controllers []interface{}) {
 	publicGroup := router.Group(config.GlobalConfig.SystemConfig.RouterPrefix) // 无需鉴权的路由组
 
 	protectedGroup := router.Group(config.GlobalConfig.SystemConfig.RouterPrefix)      // 需要鉴权的路由组

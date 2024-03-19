@@ -23,5 +23,11 @@ func (mc *MysqlConfig) GetDSN() string {
 //	@receiver mysqlConfig
 //	@return string
 func (mc *MysqlConfig) GetEmptyDSN() string {
+	if mc.Host == "" {
+		mc.Host = "127.0.0.1"
+	}
+	if mc.Port == "" {
+		mc.Port = "3306"
+	}
 	return fmt.Sprintf("%v:%v@tcp(%v:%v)/", mc.Username, mc.Password, mc.Host, mc.Port)
 }
