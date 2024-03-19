@@ -21,15 +21,13 @@ type InitRequest struct {
 //	@return config.MysqlConfig
 func (ir *InitRequest) ToMySQLConfig() config.MysqlConfig {
 	return config.MysqlConfig{
-		DatabaseGeneralConfig: config.DatabaseGeneralConfig{
-			Host:            ir.Host,
-			Port:            ir.Port,
-			DBName:          ir.DBName,
-			Username:        ir.Username,
-			Password:        ir.Password,
-			MaxIdleConns:    10,
-			MaxOpenConns:    100,
-			ConnMaxLifetime: 10 * time.Second,
-		},
+		Host:            ir.Host,
+		Port:            ir.Port,
+		DBName:          ir.DBName,
+		Username:        ir.Username,
+		Password:        ir.Password,
+		MaxIdleConns:    10,
+		MaxOpenConns:    100,
+		ConnMaxLifetime: 10 * time.Second,
 	}
 }

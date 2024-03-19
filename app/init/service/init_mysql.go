@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"server/app/init/model"
 	"server/internal/config"
+	"server/internal/util"
 )
 
 type MysqlInitializer struct{}
@@ -59,11 +59,9 @@ func (mi *MysqlInitializer) WriteConfig(c context.Context) (err error) {
 	config.GlobalConfig.SystemConfig.DBType = "mysql"
 	config.GlobalConfig.MysqlConfig = mysqlConfig
 
-	config.GlobalViper.Set("system.db_type", "mysql")
-
-	// 写入修改后的配置到新文件
-	if err = viper.WriteConfigAs(config.GlobalConfig.SystemConfig.ConfigPath); err != nil {
-		return err
+	maps := util.StructToMap(config.GlobalConfig)
+	for k, v := range maps {
+		config.GlobalViper.Set(k, v)
 	}
-	return nil
+	return config.GlobalViper.WriteConfig()
 }

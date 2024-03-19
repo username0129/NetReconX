@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"server/internal/config"
@@ -8,6 +9,7 @@ import (
 
 func MysqlConnection() *gorm.DB {
 	mysqlConfig := config.GlobalConfig.MysqlConfig
+	fmt.Println(mysqlConfig)
 	if mysqlConfig.DBName == "" {
 		return nil
 	} // 未经过初始化，返回空连接。
