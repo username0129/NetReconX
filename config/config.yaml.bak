@@ -10,18 +10,18 @@ mysql:
   db_name: "" # 数据库名称
   username: "" # 账号
   password: "" # 密码
-  max_idle_conns: "10" # 最大空闲连接数
-  max_open_conns: "100" # 最大连接数
-  conn_max_lifetime: "10s" # 连接存活时间
-  config: "charset=utf8mb4&parseTime=True&loc=Local"
-  log_mode: "error" # 是否开启 gorm 全局日志
-  log_zap: "false" # 是否打印日志到 zap
-  prefix: "sys_"
+  max_idle_conns: 10 # 最大空闲连接数
+  max_open_conns: 100 # 最大连接数
+  conn_max_lifetime: 10s # 连接存活时间
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  log_mode: error # 是否开启 gorm 全局日志
+  log_zap: false # 是否打印日志到 zap
+  prefix: sys_
 
 system:
   ip: 0.0.0.0
-  port: "8080"
-  db_type: "mysql"
+  port: 8080
+  db_type: mysql
   config_path: ./config/config.yaml
   router_prefix: /api/v1
 
