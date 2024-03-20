@@ -1,6 +1,6 @@
 package config
 
-type SystemConfig struct {
+type System struct {
 	Ip           string `mapstructure:"ip" yaml:"ip" json:"ip,omitempty"`                                  // 后端 IP 地址
 	Port         string `mapstructure:"port" yaml:"port" json:"port,omitempty"`                            // 后端端口
 	DBType       string `mapstructure:"db_type" yaml:"db_type" json:"db_type,omitempty"`                   // 数据库类型

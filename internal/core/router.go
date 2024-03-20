@@ -8,7 +8,7 @@ import (
 	casbinController "server/app/casbin/controller"
 	initController "server/app/init/controller"
 	userController "server/app/user/controller"
-	"server/internal/config"
+	"server/internal/global"
 	"server/internal/middleware"
 	"strings"
 )
@@ -33,9 +33,9 @@ func GetControllerList() []interface{} {
 }
 
 func RegisterRoutes(router *gin.Engine, controllers []interface{}) {
-	publicGroup := router.Group(config.GlobalConfig.SystemConfig.RouterPrefix) // 无需鉴权的路由组
+	publicGroup := router.Group(global.Config.System.RouterPrefix) // 无需鉴权的路由组
 
-	protectedGroup := router.Group(config.GlobalConfig.SystemConfig.RouterPrefix)      // 需要鉴权的路由组
+	protectedGroup := router.Group(global.Config.System.RouterPrefix)                  // 需要鉴权的路由组
 	protectedGroup.Use(middleware.JWTAuthMiddleware()).Use(middleware.CasbinHandler()) // 使用 JWT 和 Casbin 完成身份验证以及访问控制
 
 	for _, ctrl := range controllers {

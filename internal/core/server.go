@@ -2,16 +2,15 @@ package core
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
-	"server/internal/config"
+	"server/internal/global"
 	"time"
 )
 
 func StartServer() {
 	router := InitializeRout()
 
-	address := fmt.Sprintf("%v:%v", config.GlobalConfig.SystemConfig.Ip, config.GlobalConfig.SystemConfig.Port)
+	address := fmt.Sprintf("%v:%v", global.Config.System.Ip, global.Config.System.Port)
 	server := &http.Server{
 		Addr:           address,
 		Handler:        router,
@@ -20,6 +19,6 @@ func StartServer() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	config.GlobalLogger.Info("服务端监听在 ", zap.String("地址", address))
-	config.GlobalLogger.Error(server.ListenAndServe().Error())
+	global.Logger.Info("服务端监听在 " + address)
+	global.Logger.Error(server.ListenAndServe().Error())
 }

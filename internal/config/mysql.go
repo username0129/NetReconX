@@ -2,12 +2,13 @@ package config
 
 import (
 	"fmt"
+	"server/internal/e"
 	"time"
 )
 
-// MysqlConfig
+// Mysql
 // @Description: MySQL 配置文件
-type MysqlConfig struct {
+type Mysql struct {
 	Host            string        `mapstructure:"host" yaml:"host" json:"host,omitempty"`                                        // 数据库主机地址
 	Port            string        `mapstructure:"port" yaml:"port" json:"port,omitempty"`                                        // 数据库所用端口
 	DBName          string        `mapstructure:"db_name" yaml:"db_name" json:"db_name,omitempty"`                               // 数据库名
@@ -16,6 +17,23 @@ type MysqlConfig struct {
 	MaxIdleConns    int           `mapstructure:"max_idle_conns" yaml:"max_idle_conns" json:"max_idle_conns,omitempty"`          // 空闲连接最大数量
 	MaxOpenConns    int           `mapstructure:"max_open_conns" yaml:"max_open_conns" json:"max_open_conns,omitempty"`          // 打开连接的最大数量
 	ConnMaxLifetime time.Duration `mapstructure:"conn_max_lifetime" yaml:"conn_max_lifetime" json:"conn_max_lifetime,omitempty"` // 空闲连接存活时间
+	Config          string        `mapstructure:"config" yaml:"config" json:"config"`                                            // 连接配置
+	LogMode         string        `mapstructure:"log_mode" yaml:"log_mode" json:"log_mode"`                                      // 是否开启 gorm 全局日志
+	LogZap          bool          `mapstructure:"log_zap" yaml:"log_zap" json:"log_zap"`                                         // 是否打印日志到 zap
+	Prefix          string        `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                                            // 表名前缀
+}
+
+func (m *Mysql) Check() error {
+	if m.Host == "" {
+		m.Host = "127.0.0.1"
+	}
+	if m.Port == "" {
+		m.Port = "3306"
+	}
+	if m.Username == "" || m.DBName == "" {
+		return e.ErrInvalidDBConfig
+	}
+	return nil
 }
 
 // GetDSN
@@ -23,8 +41,8 @@ type MysqlConfig struct {
 //	@Description: 获取用于连接 MySQL 数据库的 DSN
 //	@receiver mysqlConfig
 //	@return string
-func (mc *MysqlConfig) GetDSN() string {
-	return fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", mc.Username, mc.Password, mc.Host, mc.Port, mc.DBName)
+func (m *Mysql) GetDSN() string {
+	return fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?%v", m.Username, m.Password, m.Host, m.Port, m.DBName, m.Config)
 }
 
 // GetEmptyDSN
@@ -32,12 +50,6 @@ func (mc *MysqlConfig) GetDSN() string {
 //	@Description: 获取用于连接 MySQL 的 DSN
 //	@receiver mysqlConfig
 //	@return string
-func (mc *MysqlConfig) GetEmptyDSN() string {
-	if mc.Host == "" {
-		mc.Host = "127.0.0.1"
-	}
-	if mc.Port == "" {
-		mc.Port = "3306"
-	}
-	return fmt.Sprintf("%v:%v@tcp(%v:%v)/", mc.Username, mc.Password, mc.Host, mc.Port)
+func (m *Mysql) GetEmptyDSN() string {
+	return fmt.Sprintf("%v:%v@tcp(%v:%v)/", m.Username, m.Password, m.Host, m.Port)
 }

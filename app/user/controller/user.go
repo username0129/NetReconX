@@ -1,6 +1,8 @@
 package controller
 
-type UserController struct{}
+type UserController struct {
+	JWTRequired bool
+}
 
 func (uc *UserController) GetUserInfo() {
 

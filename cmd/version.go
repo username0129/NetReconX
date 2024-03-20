@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"server/internal/config"
+	"server/internal/global"
 )
 
 var (
@@ -17,5 +17,5 @@ var (
 )
 
 func version() {
-	fmt.Printf("ServerConfig version %s -- HEAD\n", config.GlobalVersion)
+	fmt.Printf("ServerConfig version %s -- HEAD\n", global.Version)
 }

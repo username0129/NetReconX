@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
-	"server/internal/config"
+	"server/internal/global"
 	"sync"
 	"time"
 )
@@ -23,7 +23,7 @@ var (
 //	@receiver cs
 func (cs *CasbinService) GetCasbin() *casbin.SyncedCachedEnforcer {
 	once.Do(func() {
-		adapter, err := gormadapter.NewAdapterByDB(config.GlobalDB)
+		adapter, err := gormadapter.NewAdapterByDB(global.DB)
 		if err != nil {
 			return
 		}

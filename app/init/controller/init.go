@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"server/app/init/model"
 	"server/app/init/service"
-	"server/internal/config"
+	"server/internal/global"
 	"server/internal/model/common"
 )
 
@@ -21,23 +21,23 @@ var initService = new(service.InitService)
 //	@param c
 //	@Router: /init/init
 func (ic *InitController) PostInit(c *gin.Context) {
-	if config.GlobalDB != nil {
-		config.GlobalLogger.Error("已存在数据库配置。")
-		common.Response(c, http.StatusInternalServerError, "已存在数据库配置。", nil)
+	if global.DB != nil {
+		global.Logger.Error("已存在数据库配置")
+		common.Response(c, http.StatusInternalServerError, "已存在数据库配置", nil)
 		return
 	}
 
 	var req model.InitRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		config.GlobalLogger.Error("参数错误。", zap.Error(err))
-		common.Response(c, http.StatusInternalServerError, "参数错误。", nil)
+		global.Logger.Error("参数解析错误", zap.Error(err))
+		common.Response(c, http.StatusInternalServerError, "参数解析错误", nil)
 		return
 	}
 
 	if err := initService.Init(req); err != nil {
-		config.GlobalLogger.Error("数据库初始化错误。", zap.Error(err))
-		common.Response(c, http.StatusInternalServerError, "数据库初始化错误。", nil)
+		global.Logger.Error("数据库初始化错误", zap.Error(err))
+		common.Response(c, http.StatusInternalServerError, "数据库初始化错误", nil)
 		return
 	}
-	common.Response(c, http.StatusOK, "数据库初始化成功。", nil)
+	common.Response(c, http.StatusOK, "数据库初始化成功", nil)
 }

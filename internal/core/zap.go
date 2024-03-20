@@ -4,7 +4,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
-	"server/internal/config"
+	"server/internal/global"
 	"server/internal/util"
 )
 
@@ -16,14 +16,14 @@ func (cle customLevelEnabler) Enabled(level zapcore.Level) bool {
 	return level == zapcore.Level(cle)
 }
 
-// GetZapLogger
+// InitializeLogger
 //
-//	@Description: 获取 zap.Logger
-//	@return *zap.Logger
+//	@Description: 获取 zap.InitializeViper
+//	@return *zap.InitializeViper
 //	@Router:
-func GetZapLogger() *zap.Logger {
-	if ok, _ := util.IsPathExist(config.GlobalConfig.ZapConfig.Director); !ok {
-		_ = os.Mkdir(config.GlobalConfig.ZapConfig.Director, 0755)
+func InitializeLogger() *zap.Logger {
+	if ok, _ := util.IsPathExist(global.Config.Zap.Director); !ok {
+		_ = os.Mkdir(global.Config.Zap.Director, 0755)
 	} // 创建日志目录
 
 	cores := getZapCores()
@@ -66,7 +66,7 @@ func getEncoder() zapcore.Encoder {
 	encoderConfig.EncodeCaller = zapcore.FullCallerEncoder         // 显示完整路径
 	encoderConfig.EncodeLevel = zapcore.LowercaseColorLevelEncoder // 小写带颜色
 
-	switch config.GlobalConfig.ZapConfig.Format {
+	switch global.Config.Zap.Format {
 	case "json":
 		return zapcore.NewJSONEncoder(encoderConfig)
 	case "console":
@@ -82,8 +82,8 @@ func getEncoder() zapcore.Encoder {
 //	@param level
 //	@return zapcore.WriteSyncer
 func getWriteSyncer(level string) zapcore.WriteSyncer {
-	fileWriter := NewRotate(level, "2006-01-02", config.GlobalConfig.ZapConfig.Director)
-	if config.GlobalConfig.ZapConfig.LogInConsole {
+	fileWriter := NewRotate(level, "2006-01-02", global.Config.Zap.Director)
+	if global.Config.Zap.LogInConsole {
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), zapcore.AddSync(fileWriter))
 	}
 	return zapcore.AddSync(fileWriter)

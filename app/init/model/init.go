@@ -2,7 +2,7 @@ package model
 
 import (
 	"server/internal/config"
-	"time"
+	"server/internal/global"
 )
 
 type InitRequest struct {
@@ -18,16 +18,13 @@ type InitRequest struct {
 //
 //	@Description: 转换为 Mysql 配置
 //	@receiver ir
-//	@return config.MysqlConfig
-func (ir *InitRequest) ToMySQLConfig() config.MysqlConfig {
-	return config.MysqlConfig{
-		Host:            ir.Host,
-		Port:            ir.Port,
-		DBName:          ir.DBName,
-		Username:        ir.Username,
-		Password:        ir.Password,
-		MaxIdleConns:    10,
-		MaxOpenConns:    100,
-		ConnMaxLifetime: 10 * time.Second,
-	}
+//	@return config.Mysql
+func (ir *InitRequest) ToMySQLConfig() config.Mysql {
+	cfg := global.Config.Mysql
+	cfg.Host = ir.Host
+	cfg.Port = ir.Port
+	cfg.DBName = ir.DBName
+	cfg.Username = ir.Username
+	cfg.Password = ir.Password
+	return cfg
 }

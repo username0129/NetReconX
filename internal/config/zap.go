@@ -1,8 +1,8 @@
 package config
 
-// ZapConfig
+// Zap
 // @Description: zap 日志配置
-type ZapConfig struct {
+type Zap struct {
 	Level        string `mapstructure:"level" yaml:"level" json:"level,omitempty"`                            // 最低记录日志等级
 	Format       string `mapstructure:"format" yaml:"format" json:"format,omitempty"`                         // 输出格式
 	Director     string `mapstructure:"director" yaml:"director" json:"director,omitempty"`                   // 日志保存路径
