@@ -25,8 +25,9 @@ func init() {
 }
 
 func start() {
-	global.Viper = core.InitializeViper()   // 初始化 InitializeViper 用于管理配置文件
-	global.Logger = core.InitializeLogger() // 设置 InitializeViper
+	global.Viper = core.InitializeViper()   // 初始化并加载 Viper
+	global.Logger = core.InitializeLogger() // 初始化 Zap 日志
+	global.Cache = core.InitializeCache()   // 初始化 BigCache
 	global.DB = core.InitializeDB()         // 获取数据库连接
 	if global.DB != nil {
 		db, _ := global.DB.DB()

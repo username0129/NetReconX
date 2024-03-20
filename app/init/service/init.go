@@ -25,7 +25,7 @@ type InitService struct{}
 func (is *InitService) Init(req model.InitRequest) (err error) {
 
 	if len(dataInitializers) == 0 {
-		return e.ErrInvalidInitializers
+		return e.ErrNoInitializersAvailable
 	}
 	sort.Sort(&dataInitializers) // 对初始化进行排序，确保执行顺序
 
@@ -49,6 +49,9 @@ func (is *InitService) Init(req model.InitRequest) (err error) {
 	global.DB = db
 
 	if err = dbInitializer.CreateTable(dataInitializers); err != nil {
+		return err
+	}
+	if err = dbInitializer.InitData(dataInitializers); err != nil {
 		return err
 	}
 	if err = dbInitializer.WriteConfig(c); err != nil {

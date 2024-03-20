@@ -5,6 +5,7 @@ import (
 	"reflect"
 	authController "server/app/auth/controller"
 	baseController "server/app/base/controller"
+	captchaController "server/app/captcha/controller"
 	casbinController "server/app/casbin/controller"
 	initController "server/app/init/controller"
 	userController "server/app/user/controller"
@@ -29,6 +30,7 @@ func GetControllerList() []interface{} {
 		&authController.AuthController{},
 		&casbinController.CasbinController{},
 		&initController.InitController{},
+		&captchaController.CaptchaController{},
 	}
 }
 

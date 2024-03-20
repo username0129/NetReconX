@@ -27,7 +27,7 @@ func (cs *CasbinService) GetCasbin() *casbin.SyncedCachedEnforcer {
 		if err != nil {
 			return
 		}
-		enforcer, err := casbin.NewSyncedCachedEnforcer("config/rbac_model.conf", adapter) // 带有缓存和同步，提高性能以及保证数据同步
+		enforcer, err = casbin.NewSyncedCachedEnforcer("./config/rbac_model.conf", adapter) // 带有缓存和同步，提高性能以及保证数据同步
 		if err != nil {
 			return
 		}

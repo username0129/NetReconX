@@ -13,5 +13,5 @@ type User struct {
 	AuthorityId uint      `mapstructure:"authority_id" gorm:"default:0;comment:用户身份 ID"`
 	Phone       string    `mapstructure:"phone" gorm:"comment:手机号"`
 	Email       string    `mapstructure:"email" gorm:"comment:邮箱"`
-	Enable      bool      `mapstructure:"enable" gorm:"default:1;comment:用户状态 1正常 0冻结"`
+	Enable      int       `mapstructure:"enable" gorm:"default:1;comment:用户状态 1正常 0冻结"`
 }

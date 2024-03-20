@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"os"
 	"server/internal/global"
-	"server/internal/util"
+	"server/internal/utils"
 )
 
 // customLevelEnabler 仅当等级严格匹配时启用日志记录
@@ -22,7 +22,7 @@ func (cle customLevelEnabler) Enabled(level zapcore.Level) bool {
 //	@return *zap.InitializeViper
 //	@Router:
 func InitializeLogger() *zap.Logger {
-	if ok, _ := util.IsPathExist(global.Config.Zap.Director); !ok {
+	if ok, _ := utils.IsPathExist(global.Config.Zap.Director); !ok {
 		_ = os.Mkdir(global.Config.Zap.Director, 0755)
 	} // 创建日志目录
 

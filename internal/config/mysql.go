@@ -31,7 +31,7 @@ func (m *Mysql) Check() error {
 		m.Port = "3306"
 	}
 	if m.Username == "" || m.DBName == "" {
-		return e.ErrInvalidDBConfig
+		return e.ErrDatabaseConfigInvalid
 	}
 	return nil
 }

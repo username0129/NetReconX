@@ -8,7 +8,7 @@ import (
 	"server/app/init/model"
 	"server/internal/config"
 	"server/internal/global"
-	"server/internal/util"
+	"server/internal/utils"
 )
 
 type MysqlInitializer struct{}
@@ -47,7 +47,7 @@ func (mi *MysqlInitializer) CreateDatabase(c context.Context, req model.InitRequ
 		SkipInitializeWithVersion: false,        // 根据当前 MySQL 版本自动配置
 	}
 
-	if db, err := gorm.Open(mysql.New(mysqlConfig), util.GetGormConfig(cfg.Prefix)); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), utils.GetGormConfig(cfg.Prefix)); err != nil {
 		return c, err
 	} else {
 		sqlDB, _ := db.DB()                           // 获取通用数据库对象 sql.DB。
@@ -65,7 +65,7 @@ func (mi *MysqlInitializer) CreateTable(o initSlice) (err error) {
 
 func (mi *MysqlInitializer) InitData(o initSlice) error {
 	for _, initializer := range o {
-		if err := initializer.CreateTable(); err != nil {
+		if err := initializer.InitData(); err != nil {
 			return err
 		}
 	}
@@ -77,7 +77,7 @@ func (mi *MysqlInitializer) WriteConfig(c context.Context) (err error) {
 	global.Config.System.DBType = "mysql"
 	global.Config.Mysql = mysqlConfig
 
-	maps := util.StructToMap(global.Config)
+	maps := utils.StructToMap(global.Config)
 	for k, v := range maps {
 		global.Viper.Set(k, v)
 	}
