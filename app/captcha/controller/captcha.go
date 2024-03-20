@@ -18,7 +18,7 @@ type CaptchaController struct{}
 
 func (cc *CaptchaController) PostCaptcha(c *gin.Context) {
 	openCaptcha := global.Config.Captcha.OpenCaptcha               // 是否开启验证码
-	openCaptchaTimeOut := global.Config.Captcha.OpenCaptchaTimeOut // 是否开启验证码
+	openCaptchaTimeout := global.Config.Captcha.OpenCaptchaTimeout // 是否开启验证码
 
 	key := c.ClientIP() // 客户端 IP
 
@@ -26,7 +26,7 @@ func (cc *CaptchaController) PostCaptcha(c *gin.Context) {
 	if err != nil {
 		// 当条目不存在时或者超时时，初始化条目
 		if errors.Is(err, bigcache.ErrEntryNotFound) || errors.Is(err, e.ErrCacheEntryTimeout) {
-			utils.SetCacheItem(key, []byte("1"), openCaptchaTimeOut)
+			utils.SetCacheItem(key, []byte("1"), openCaptchaTimeout)
 		} else {
 			global.Logger.Error("获取缓存条目错误", zap.Error(err))
 			return

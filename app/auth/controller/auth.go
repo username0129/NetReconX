@@ -34,7 +34,7 @@ func (ac *AuthController) PostLogin(c *gin.Context) {
 
 	// 验证码
 	openCaptcha := global.Config.Captcha.OpenCaptcha               // 是否开启验证码
-	openCaptchaTimeOut := global.Config.Captcha.OpenCaptchaTimeOut // 验证码超时时间
+	openCaptchaTimeout := global.Config.Captcha.OpenCaptchaTimeout // 验证码超时时间
 
 	key := c.ClientIP() // 客户端 IP
 
@@ -42,7 +42,7 @@ func (ac *AuthController) PostLogin(c *gin.Context) {
 	if err != nil {
 		// 当条目不存在时或者超时时，初始化条目
 		if errors.Is(err, bigcache.ErrEntryNotFound) || errors.Is(err, e.ErrCacheEntryTimeout) {
-			utils.SetCacheItem(key, []byte("1"), openCaptchaTimeOut)
+			utils.SetCacheItem(key, []byte("1"), openCaptchaTimeout)
 		} else {
 			global.Logger.Error("获取缓存条目错误！", zap.Error(err))
 			return
@@ -56,20 +56,20 @@ func (ac *AuthController) PostLogin(c *gin.Context) {
 		var user = &model.User{}
 		if user, err = service.AuthServiceApp.Login(u); err != nil {
 			global.Logger.Error(fmt.Sprintf("用户 %v 登陆失败：用户名不存在或者密码错误！", logonRequest.Username), zap.Error(err))
-			utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeOut)
+			utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeout)
 			common.Response(c, http.StatusInternalServerError, fmt.Sprintf("用户 %v 登陆失败：用户名不存在或者密码错误！", logonRequest.Username), nil)
 			return
 		} // 用户身份校验失败
 		if user.Enable != 1 {
 			global.Logger.Error(fmt.Sprintf("用户 %v 登陆失败：用户被冻结，禁止登录!", logonRequest.Username))
-			utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeOut)
+			utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeout)
 			common.Response(c, http.StatusInternalServerError, fmt.Sprintf("用户 %v 登陆失败：用户被冻结，禁止登录！", logonRequest.Username), nil)
 			return
 		} // 用户账户被冻结
 		ac.TokenNext(c, user) // 用户登录成功，返回 Token
 		return
 	} else {
-		utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeOut)
+		utils.SetCacheItem(key, []byte(strconv.Itoa(utils.ItemToInt(item)+1)), openCaptchaTimeout)
 		common.Response(c, http.StatusUnauthorized, fmt.Sprintf("用户 %v 登陆失败：验证码错误！", logonRequest.Username), nil)
 		return
 	}
