@@ -3,38 +3,34 @@ package core
 import (
 	"github.com/gin-gonic/gin"
 	"reflect"
-	authController "server/app/auth/controller"
-	baseController "server/app/base/controller"
-	captchaController "server/app/captcha/controller"
-	casbinController "server/app/casbin/controller"
-	initController "server/app/init/controller"
-	userController "server/app/user/controller"
+	"server/internal/controller"
 	"server/internal/global"
 	"server/internal/middleware"
 	"strings"
 )
 
 func InitializeRout() *gin.Engine {
-	router := gin.New()
-	router.Use(gin.Recovery()) // 避免 panic 导致服务器停止
+	r := gin.New()
+	r.Use(gin.Recovery()) // 避免 panic 导致服务器停止
 
-	RegisterRoutes(router, GetControllerList())
+	_ = r.SetTrustedProxies(nil) // 设置信任网络 nil 为不计算，避免性能消耗
+	setupRoutes(r, getControllerList())
 
-	return router
+	return r
 }
 
-func GetControllerList() []interface{} {
+func getControllerList() []interface{} {
 	return []interface{}{
-		&baseController.BaseController{},
-		&userController.UserController{},
-		&authController.AuthController{},
-		&casbinController.CasbinController{},
-		&initController.InitController{},
-		&captchaController.CaptchaController{},
+		&controller.BaseController{},
+		&controller.UserController{},
+		&controller.AuthController{},
+		&controller.CasbinController{},
+		&controller.InitController{},
+		&controller.CaptchaController{},
 	}
 }
 
-func RegisterRoutes(router *gin.Engine, controllers []interface{}) {
+func setupRoutes(router *gin.Engine, controllers []interface{}) {
 	publicGroup := router.Group(global.Config.System.RouterPrefix) // 无需鉴权的路由组
 
 	protectedGroup := router.Group(global.Config.System.RouterPrefix)                  // 需要鉴权的路由组
@@ -68,17 +64,19 @@ func RegisterRoutes(router *gin.Engine, controllers []interface{}) {
 	}
 }
 
-// getHTTPMethodFromName
-//
-//	@Description: 根据方法名前缀获取对应的请求方法
-//	@param methodName
-//	@return string
-//	@return bool
 func getHTTPMethodFromName(methodName string) (string, bool) {
+	// 使用前缀匹配方法名，确定对应的HTTP方法
 	if strings.HasPrefix(methodName, "Get") {
 		return "GET", true
 	} else if strings.HasPrefix(methodName, "Post") {
 		return "POST", true
+	} else if strings.HasPrefix(methodName, "Put") {
+		return "PUT", true
+	} else if strings.HasPrefix(methodName, "Delete") {
+		return "DELETE", true
+	} else if strings.HasPrefix(methodName, "Patch") {
+		return "PATCH", true
 	}
+	// 如果没有匹配到任何HTTP方法，则返回false
 	return "", false
 }

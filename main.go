@@ -2,7 +2,7 @@ package main
 
 import (
 	"server/cmd"
-	_ "server/internal/database"
+	_ "server/internal/db"
 )
 
 func main() {

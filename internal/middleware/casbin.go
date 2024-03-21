@@ -3,10 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"server/app/casbin/service"
 	"server/internal/global"
-	"server/internal/model/common"
-	"server/internal/utils"
+	"server/internal/model/response"
+	"server/internal/service"
+	"server/internal/util"
 	"strconv"
 	"strings"
 )
@@ -23,7 +23,7 @@ func CasbinHandler() gin.HandlerFunc {
 
 		// 获取请求主体（身份 id）
 		claims, _ := c.Get("claims")
-		typedClaims, _ := claims.(*utils.CustomClaims)
+		typedClaims, _ := claims.(*util.CustomClaims)
 		sub := strconv.Itoa(int(typedClaims.AuthorityId))
 
 		// 判断是否存在对应的 ACL
@@ -33,7 +33,7 @@ func CasbinHandler() gin.HandlerFunc {
 		if ok {
 			c.Next() // 请求成功
 		} else {
-			common.Response(c, http.StatusForbidden, "用户权限不足", nil)
+			response.Response(c, http.StatusForbidden, "用户权限不足", nil)
 			c.Abort() // 请求失败
 			return
 		}

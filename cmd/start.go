@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"server/internal/core"
 	"server/internal/global"
+	"server/internal/log"
 )
 
 var (
@@ -25,10 +26,10 @@ func init() {
 }
 
 func start() {
-	global.Viper = core.InitializeViper()   // 初始化并加载 Viper
-	global.Logger = core.InitializeLogger() // 初始化 Zap 日志
-	global.Cache = core.InitializeCache()   // 初始化 BigCache
-	global.DB = core.InitializeDB()         // 获取数据库连接
+	global.Viper = core.InitializeViper()  // 初始化并加载 Viper
+	global.Logger = log.InitializeLogger() // 初始化 Zap 日志
+	global.Cache = core.InitializeCache()  // 初始化 BigCache
+	global.DB = core.InitializeDB()        // 获取数据库连接
 	if global.DB != nil {
 		db, _ := global.DB.DB()
 		defer db.Close()

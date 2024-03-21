@@ -8,6 +8,7 @@ require (
 	github.com/casbin/gorm-adapter/v3 v3.21.0
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-gonic/gin v1.9.1
+	github.com/go-sql-driver/mysql v1.8.0
 	github.com/gofrs/uuid/v5 v5.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/mojocn/base64Captcha v1.3.6
@@ -15,7 +16,7 @@ require (
 	github.com/spf13/viper v1.18.2
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.21.0
-	gorm.io/driver/mysql v1.5.5
+	gorm.io/driver/mysql v1.5.6
 	gorm.io/gorm v1.25.8
 )
 
@@ -33,7 +34,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.19.0 // indirect
-	github.com/go-sql-driver/mysql v1.8.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect

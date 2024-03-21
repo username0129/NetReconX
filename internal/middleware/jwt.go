@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
-	"server/internal/model/common"
-	"server/internal/utils"
+	"server/internal/model/response"
+	"server/internal/util"
 	"strings"
 )
 
@@ -16,14 +16,14 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		authHeader := c.GetHeader("Authorization")
 		// 检查是否有请求头
 		if authHeader == "" {
-			common.Response(c, http.StatusUnauthorized, "用户未登录！", gin.H{"reload": true})
+			response.Response(c, http.StatusUnauthorized, "用户未登录！", gin.H{"reload": true})
 			c.Abort()
 			return
 		}
 
 		// 检查 Token 是否有 Bearer 前缀
 		if !strings.HasPrefix(authHeader, BearerSchema) {
-			common.Response(c, http.StatusUnauthorized, "无效的 Token 格式！", gin.H{"reload": true})
+			response.Response(c, http.StatusUnauthorized, "无效的 Token 格式！", gin.H{"reload": true})
 			c.Abort()
 			return
 		}
@@ -32,13 +32,13 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		tokenString := authHeader[len(BearerSchema):]
 
 		// 解析 Token
-		claims, err := utils.ParseToken(tokenString)
+		claims, err := util.ParseToken(tokenString)
 		if err != nil {
 			errorMsg := "令牌无效"
 			if errors.Is(err, jwt.ErrTokenExpired) {
 				errorMsg = "令牌已过期！"
 			}
-			common.Response(c, http.StatusUnauthorized, errorMsg, gin.H{"reload": true})
+			response.Response(c, http.StatusUnauthorized, errorMsg, gin.H{"reload": true})
 			c.Abort()
 			return
 		}
