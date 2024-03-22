@@ -35,7 +35,7 @@ func (cc *CaptchaController) PostCaptcha(c *gin.Context) {
 	}
 
 	var oc bool
-	if openCaptcha == 0 || openCaptcha < util.ItemToInt(item) {
+	if openCaptcha == 0 || openCaptcha <= util.ItemToInt(item) {
 		oc = true
 	}
 

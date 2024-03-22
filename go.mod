@@ -82,7 +82,7 @@ require (
 	gorm.io/driver/postgres v1.5.7 // indirect
 	gorm.io/driver/sqlserver v1.5.3 // indirect
 	gorm.io/plugin/dbresolver v1.5.1 // indirect
-	modernc.org/libc v1.46.0 // indirect
+	modernc.org/libc v1.47.0 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.7.2 // indirect
 	modernc.org/sqlite v1.29.5 // indirect

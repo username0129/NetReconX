@@ -20,7 +20,6 @@ type Mysql struct {
 	Config          string        `mapstructure:"config" yaml:"config" json:"config"`                                            // 连接配置
 	LogMode         string        `mapstructure:"log_mode" yaml:"log_mode" json:"log_mode"`                                      // 是否开启 gorm 全局日志
 	LogZap          bool          `mapstructure:"log_zap" yaml:"log_zap" json:"log_zap"`                                         // 是否打印日志到 zap
-	Prefix          string        `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                                            // 表名前缀
 }
 
 func (m *Mysql) Check() error {

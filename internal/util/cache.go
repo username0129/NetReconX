@@ -15,7 +15,7 @@ func SetCacheItem(key string, data []byte, e time.Duration) {
 		Expiration: time.Now().Add(e).Unix(),
 	}
 	itemBytes, _ := json.Marshal(item)
-	_ = global.Cache.Set("myKey", itemBytes)
+	_ = global.Cache.Set(key, itemBytes)
 }
 
 func GetCacheItem(key string) (model.CacheItem, error) {

@@ -24,6 +24,36 @@ var initialDatas = []InitialData{
 		},
 	},
 	{
+		TableName: "casbin_role",
+		Data: []interface{}{
+			&model.CasbinRule{Ptype: "p", V0: "1", V1: "/api/v1/user/postuserinfo", V2: "POST"},
+		},
+	},
+	{
+		TableName: "sys_menus",
+		Data: []interface{}{
+			// 顶级菜单
+			&model.Menu{Hidden: false, ParentId: "0", Title: "仪表盘", Icon: "odometer", Name: "dashboard", Path: "dashboard", Component: "view/dashboard/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+			&model.Menu{Hidden: false, ParentId: "0", Title: "管理员面板", Icon: "user", Name: "admin", Path: "admin", Component: "view/admin/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+			&model.Menu{Hidden: false, ParentId: "0", Title: "个人信息", Icon: "message", Name: "person", Path: "person", Component: "view/person/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+			// 管理员菜单
+			&model.Menu{Hidden: false, ParentId: "2", Title: "角色管理", Icon: "avatar", Name: "authority", Path: "authority", Component: "view/admin/authority/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+			&model.Menu{Hidden: false, ParentId: "2", Title: "用户管理", Icon: "coordinate", Name: "user", Path: "user", Component: "view/admin/user/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+			&model.Menu{Hidden: false, ParentId: "2", Title: "操作历史", Icon: "pie-chart", Name: "operation", Path: "operation", Component: "view/admin/operation/index.vue", Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},
+		},
+	},
+	{
+		TableName: "sys_apis",
+		Data: []interface{}{
+			// 基础 API
+			&model.Api{Path: "/api/v1/base/gethealth", Description: "获取服务运行状态", Group: "base", Method: "GET"},
+			// 初始化 API
+			&model.Api{Path: "/api/v1/init/postinit", Description: "初始化数据库", Group: "init", Method: "POST"},
+			// 用户认证 API
+			&model.Api{Path: "/api/v1/auth/postlogin", Description: "用户登录", Group: "auth", Method: "POST"},
+		},
+	},
+	{
 		TableName: "sys_users",
 		Data: []interface{}{
 			&model.User{Username: "admin", Password: util.BcryptHash("123456"), Nickname: "系统管理员", AuthorityId: 1, Authorities: []model.Authority{{AuthorityName: "系统管理员"}}},

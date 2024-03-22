@@ -3,18 +3,14 @@ package util
 import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
 	"log"
 	"os"
 	"server/internal/global"
 	"time"
 )
 
-func GetGormConfig(prefix string) *gorm.Config {
+func GetGormConfig() *gorm.Config {
 	cfg := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: prefix,
-		},
 		DisableForeignKeyConstraintWhenMigrating: true,
 	} // 禁用外键约束
 

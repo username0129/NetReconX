@@ -3,12 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"server/internal/global"
 	"server/internal/model/response"
 	"server/internal/service"
 	"server/internal/util"
 	"strconv"
-	"strings"
 )
 
 var casbinService = service.CasbinServiceApp
@@ -16,8 +14,7 @@ var casbinService = service.CasbinServiceApp
 func CasbinHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 获取请求资源
-		path := c.Request.URL.Path
-		obj := strings.TrimPrefix(path, global.Config.System.RouterPrefix)
+		obj := c.Request.URL.Path
 		// 获取请求方式
 		act := c.Request.Method
 

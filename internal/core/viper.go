@@ -18,7 +18,7 @@ func InitializeViper() *viper.Viper {
 
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
-		global.Logger.Info(fmt.Sprintf("配置文件发生更改：%v\n", e.Name))
+		global.Logger.Info(fmt.Sprintf("配置文件发生更改：%v", e.Name))
 		if err := v.Unmarshal(&global.Config); err != nil {
 			panic(fmt.Errorf("配置文件解析错误：%v\n", err))
 		}

@@ -42,7 +42,7 @@ func (mi *MySQLInitializer) CreateDatabase(c context.Context, req model.InitRequ
 		SkipInitializeWithVersion: false,        // 根据当前 MySQL 版本自动配置
 	}
 
-	if db, err := gorm.Open(mysql.New(mysqlConfig), util.GetGormConfig(cfg.Prefix)); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), util.GetGormConfig()); err != nil {
 		return c, err
 	} else {
 		sqlDB, _ := db.DB()                           // 获取通用数据库对象 sql.DB。
